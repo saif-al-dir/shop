@@ -1,21 +1,22 @@
 import styles from './Product.module.scss';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductForm from '../ProductForm/ProductForm';
+import Button from '../Button/Button';
 
 
 
 
 const Product = ({ id, name, title, basePrice, colors, sizes }) => {
-  const [currentColor, setCurrentColor] = useState(colors[0]);
-  const [currentSize, setCurrentSize] = useState(sizes[0].name);
-  const getPrice = () => {
+  const [currentColor, setCurrentColor] = useState(colors[id]);
+  const [currentSize, setCurrentSize] = useState(sizes[id].name);
+  const price = useMemo(() => {
     const selectedSize = sizes.find(size => size.name === currentSize);
     return basePrice + (selectedSize ? selectedSize.additionalPrice : 0);
-  };
+  }, [basePrice, sizes, currentSize]);
   const handleAddToCart = (event) => {
     event.preventDefault();
-    console.log(`Product: ${title}, Price: ${getPrice()}$, Color: ${currentColor}, Size: ${currentSize}`);
+    console.log(`Product: ${title}, Price: ${price}$, Color: ${currentColor}, Size: ${currentSize}`);
   };
 
   return (
@@ -23,7 +24,7 @@ const Product = ({ id, name, title, basePrice, colors, sizes }) => {
       <ProductImage name={name} title={title} currentColor={currentColor} />
       <header>
         <h2 className={styles.name}>{title}</h2>
-        <span className={styles.price}>Price: {getPrice()}$</span>
+        <span className={styles.price}>Price: {price}$</span>
       </header>
       <ProductForm
         sizes={sizes}
@@ -32,9 +33,10 @@ const Product = ({ id, name, title, basePrice, colors, sizes }) => {
         setCurrentSize={setCurrentSize}
         currentColor={currentColor}
         setCurrentColor={setCurrentColor}
-        getPrice={getPrice}
-        handleAddToCart={handleAddToCart}
+        getPrice={price}
+
       />
+      <Button onClick={handleAddToCart} />
     </article>
   )
 };

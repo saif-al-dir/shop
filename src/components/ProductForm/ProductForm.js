@@ -5,7 +5,7 @@ import OptionSize from '../OptionSize/OptionSize';
 import Button from '../Button/Button';
 
 
-const ProductForm = ({ sizes, colors, currentSize, setCurrentSize, currentColor, setCurrentColor, getPrice, handleAddToCart }) => {
+const ProductForm = ({ sizes, colors, currentSize, setCurrentSize, currentColor, setCurrentColor, handleAddToCart }) => {
     return (
         <form>
             <div className={styles.sizes}>
@@ -16,10 +16,9 @@ const ProductForm = ({ sizes, colors, currentSize, setCurrentSize, currentColor,
                 <h3 className={styles.optionLabel}>Colors</h3>
                 <OptionColor colors={colors} currentColor={currentColor} setCurrentColor={setCurrentColor} />
             </div>
-            <div className={styles.Button}>
-                <Button onClick={handleAddToCart} />
-            </div>
+
         </form>
+
     );
 };
 
